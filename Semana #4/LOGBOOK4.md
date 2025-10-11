@@ -19,7 +19,7 @@ unset ANYNAME        # Remove the environment variable
 ```
 
 ### Code example:
-![Task 1 Example](Images/Task1.png)
+![Task 1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task1.png?ref_type=heads)
 
 ### Task 2 — Parent to child inheritance (fork)
 
@@ -34,7 +34,7 @@ Steps:
 **Conclusion:** The child process created by fork() inherits the parent’s environment (exported variables are duplicated to the child).
 
 ### Code example:
-![Task 2 Example](Images/Task2.png)
+![Task 2 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task2.png?ref_type=heads)
 
 ### Task 3 — `execve()` and Environment
 
@@ -81,9 +81,9 @@ Procedure summary:
 
 1. Create a program that prints environ (same as Task 2).
 2. Compile and make it Set-UID root:
-   ![Task 5.1 Example](Images/Task5.1.png)
+   ![Task 5.1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task5.1.png?ref_type=heads)
 3. As a normal user (e.g., seed), export variables:
-   ![Task 5.2 Example](Images/Task5.2.png)
+   ![Task 5.2 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task5.2.png?ref_type=heads)
 4. Run ``./env``.
 
 **Observations:**
@@ -106,7 +106,7 @@ int main() {
 }
 ```
 Compile and make Set-UID root:
-![Task 6.1 Example](Images/Task6.1.png)
+![Task 6.1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task6.1.png?ref_type=heads)
 
 **Purpose:** ``victim`` calls ``system("ls")`` → ``/bin/sh -c "ls"`` is executed.
 
@@ -123,21 +123,21 @@ int main() {
 ```
 
 Build and place it as ``~/ls``:
-![Task 6.5 Example](Images/Task6.5.png)
+![Task 6.5 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task6.5.png?ref_type=heads)
 
 **Purpose:** Show whether the attacker binary runs with EUID 0 (root).
 
 #### Step 3 — Put attacker directory first in PATH
 
 Save current PATH and set new PATH:
-![Task 6.2 Example](Images/Task6.2.png)
+![Task 6.2 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task6.2.png?ref_type=heads)
 
 **Why:** If ``/home/seed`` is checked before /``bin``, the shell will run ``~/ls`` when asked to run ``ls``.
 
 #### Step 4 — Test with default /bin/sh (dash)
 
 Run the victim:
-![Task 6.3 Example](Images/Task6.3.png)
+![Task 6.3 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task6.3.png?ref_type=heads)
 
 **Explanation:** ``dash`` detects it was invoked in a Set-UID process and drops privileges (sets EUID=UID) before running commands. Attack fails (no root).
 
@@ -150,7 +150,7 @@ ls -l /bin/sh
 
 #### Step 6 — Re-run the victim
 With ``/home/seed`` at the front of PATH and ``/bin/sh`` now ``zsh``, run:
-![Task 6.4 Example](Images/Task6.4.png)
+![Task 6.4 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task6.4.png?ref_type=heads)
 
 **Interpretation:** The attacker ``~/ls`` was executed with effective UID 0, i.e., ran as root. Attack succeeded because:
 -  ``system()`` invoked a shell;
