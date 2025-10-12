@@ -169,10 +169,34 @@ With ``/home/seed`` at the front of PATH and ``/bin/sh`` now ``zsh``, run:
 
 ### Task 8 — Invoking External Programs Using system() versus execve()~
 
-**Goal:** Allow a non-root user to read any file on the system via a set‑UID root program while preventing that user from modifying any files.
+#### Step 1 — Exploiting system() in Set-UID catall
 
+**Goals:** Show that a Set-UID catall using system() can be abused to delete a protected file.
 
+**Program:** catall.c
+```c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stddef.h>
+int main(int argc, char *argv[])
+{
+char *v[3];
+char *command;
+if(argc < 2) {
+printf("Please type a file name.\n");
+return 1;
+}
+v[0] = "/bin/cat"; v[1] = argv[1]; v[2] = NULL;
+command = malloc(strlen(v[0]) + strlen(v[1]) + 2);
+sprintf(command, "%s %s", v[0], v[1]);
+system(command);
 
+return 0 ;
+}
+```
+![Task 8.1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task8.1.png?ref_type=heads)
 
+**Conclusion:** This shows that using system() in a Set-UID program is dangerous because it allows command injection through user input. By inserting shell metacharacters, an unprivileged user can execute arbitrary commands with root privileges, such as deleting protected files. To prevent such vulnerabilities, privileged programs should avoid using system(), validate all user input, and use safer functions like execve() with controlled arguments.
 
 
