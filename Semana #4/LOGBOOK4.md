@@ -167,9 +167,30 @@ With ``/home/seed`` at the front of PATH and ``/bin/sh`` now ``zsh``, run:
 
 
 
+### Task 7 — The LD PRELOAD Environment Variable and Set-UID Programs
 
+**Goal:** Understand how Set-UID programs handle the LD_PRELOAD environment variable and its impact on the dynamic loader’s behavior.
 
+**Program:** 
+mylib.c
+```c
+#include <stdio.h>
+void sleep (int s)
+{
+printf("I am not sleeping!\n");
+}
+```
+**Program:** myprog.c
+```c
+#include <unistd.h>
+int main()
+{
+sleep(1);
+return 0;
+}
+```
 
+#### Step 1 - Build and Compile each Program
 
 
 
