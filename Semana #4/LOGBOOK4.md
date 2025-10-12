@@ -167,30 +167,10 @@ With ``/home/seed`` at the front of PATH and ``/bin/sh`` now ``zsh``, run:
 
 
 
-### Task 7 — The LD PRELOAD Environment Variable and Set-UID Programs
+### Task 8 — Invoking External Programs Using system() versus execve()~
 
-**Goal:** Understand how Set-UID programs handle the LD_PRELOAD environment variable and its impact on the dynamic loader’s behavior.
+**Goal:** Allow a non-root user to read any file on the system via a set‑UID root program while preventing that user from modifying any files.
 
-**Program:** 
-mylib.c
-```c
-#include <stdio.h>
-void sleep (int s)
-{
-printf("I am not sleeping!\n");
-}
-```
-**Program:** myprog.c
-```c
-#include <unistd.h>
-int main()
-{
-sleep(1);
-return 0;
-}
-```
-
-#### Step 1 - Build and Compile each Program
 
 
 
