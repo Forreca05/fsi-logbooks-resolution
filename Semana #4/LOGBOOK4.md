@@ -197,6 +197,14 @@ return 0 ;
 ```
 ![Task 8.1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task8.1.png?ref_type=heads)
 
-**Conclusion:** This shows that using system() in a Set-UID program is dangerous because it allows command injection through user input. By inserting shell metacharacters, an unprivileged user can execute arbitrary commands with root privileges, such as deleting protected files. To prevent such vulnerabilities, privileged programs should avoid using system(), validate all user input, and use safer functions like execve() with controlled arguments.
+#### Technical Explanation
+1. Catall builds a command string "/bin/cat " + argv[1] 
+2. Calls system(command) and system() runs sh -c "<command>" 
+3. Shell parses metacharacters like ;.
+
+Because catall is Set-UID root, the shell and the injected /bin/rm execute with effective UID 0, allowing deletion of files the unprivileged user cannot normally remove.
+
+**Conclusion:** This shows that using system() in a Set-UID program is dangerous because it allows command injection through user input.To prevent such vulnerabilities, privileged programs should avoid using system(), validate all user input, and use safer functions like execve() with controlled arguments.
+
 
 
