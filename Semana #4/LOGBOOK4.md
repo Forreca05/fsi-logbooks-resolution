@@ -257,7 +257,7 @@ The reference program essentially does:
 * Create the empty test file (/etc/zzz) as root and set its permissions so root can read/write, while others can only read.
 * Compile the cap_leak.c file 
 
-![Task 9 Example (1)](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task9.1.png?ref_type=heads)
+![Task 9.1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task9.1.png?ref_type=heads)
 
 ## 3. Evidence of execution
 
@@ -265,7 +265,7 @@ The reference program essentially does:
 * Run cap_leak as a normal user, which prints the open file descriptor, exposing the privileged FD to the user.
 * Use that descriptor from the spawned shell to write into /etc/zzz and verify the change.
 
-![Task 9 Example (2)](Images/Task9(2).png)
+![Task 9.2 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task9.2.png?ref_type=heads)
 
 
 ## 4. Technical explanation (detailed)
