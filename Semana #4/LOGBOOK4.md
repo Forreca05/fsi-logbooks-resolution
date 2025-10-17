@@ -257,11 +257,11 @@ The reference program essentially does:
 * Create the empty test file (/etc/zzz) as root and set its permissions so root can read/write, while others can only read.
 * Compile the cap_leak.c file 
 
-![Task 9 Example (1)](Images/Task9(1).png)
+![Task 9 Example (1)](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%234/Images/Task9.1.png?ref_type=heads)
 
 ## 3. Evidence of execution
 
-* Change the owner of cap_leak from seed to root and set the set-UID bit so the program runs with root EUID (ls -l should show -rwsr-xr-x)
+* Change the owner of cap_leak from seed to root and set the set-UID bit so the program runs with root EUID.
 * Run cap_leak as a normal user, which prints the open file descriptor, exposing the privileged FD to the user.
 * Use that descriptor from the spawned shell to write into /etc/zzz and verify the change.
 
@@ -288,10 +288,6 @@ The reference program essentially does:
 * When the program calls execve("/bin/sh", ...), the new process inherits descriptors that do not have the FD_CLOEXEC flag. Thus the invoked shell can use the inherited FD to perform writes to the file, even though the shell runs with a non-privileged UID.
 * In short: *an opened FD that persists across the UID drop and across exec is the bypass*.
 
-### 4.4 Notes on kernel capabilities
-
-* In other scenarios, the process could also hold kernel capabilities (e.g., CAP_DAC_OVERRIDE) that allow bypassing permission checks. If these capabilities are not cleared after the UID downgrade (using libcap or prctl appropriately), the process continues to perform privileged operations despite not being UID 0.
-* Therefore, vulnerability sources include both preserved FDs and residual capabilities.
 
 ## 5. Mitigation measures (countermeasures)
 
@@ -309,6 +305,6 @@ To prevent this class of vulnerability in set-UID programs:
 
 ## 6. Final evidence and conclusions (summary)
 
-* *Technical conclusion:* Opening sensitive resources (e.g., files) while privileged and then merely calling setuid() without closing those resources or clearing capabilities can allow a process to retain practical privileged access. This is a classic instance of capability leaking.
+* *Technical conclusion:* Opening sensitive resources while privileged and then merely calling setuid() without closing those resources or clearing capabilities can allow a process to retain practical privileged access. This is a classic instance of capability leaking.
 * *Practical takeaway:* Always close or otherwise revoke privileged resources before dropping privileges; prefer minimized, audited privileged helpers and explicit capability control.
 * *Security-by-design* is the most effective defense: minimize privileged code, apply the principle of least privilege, and perform careful cleanup after privilege transitions.
