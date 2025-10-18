@@ -6,7 +6,7 @@
 
 In this task, we compiled ``call_shellcode.c`` with the provided Makefile and executed both the 32-bit and 64-bit binaries. Both binaries launched an interactive shell, and each shell started in the directory from which the program was executed.
 
-![Task 1 Example](Images/Task1.png)
+![Task 1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task1.png?ref_type=heads)
 
 ### Task 2 — Understanding the Vulnerable Program
 
@@ -14,7 +14,7 @@ We initially studied the code of the program with a buffer overflow vulnerabilit
 
 We then changed the variable L1 present on the Makefile to 132 (100 + 4 * 8(G)) and then compiled the program with ``make stack-L1`` which disabled StackGuard and protections against code execution invoked from the stack, changed the program's owner to root and enabled Set-UID.
 
-![Task 2 Example](Images/Task2.png)
+![Task 2 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task2.png?ref_type=heads)
 
 ### Task 3 - Lauching Attack on 32-bit Program
 
@@ -40,29 +40,29 @@ Once we've obtained the necessary addresses, we need to insert the content we wa
 
 In the shellcode variable, we insert the 32-bit shellcode that executes a shell.
 
-![Task 3.1 Example](Images/Task3.1.png)
+![Task 3.1 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task3.1.png?ref_type=heads)
 
 A byte array of size 517 (maximum size of the character array read from the file by the vulnerable program) was created, where all bytes are NOP (0x90).
 
-![Task 3.2 Example](Images/Task3.2.png)
+![Task 3.2 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task3.2.png?ref_type=heads)
 
 Placed shellcode at the end of the byte array.
 
-![Task 3.3 Example](Images/Task3.3.png)
+![Task 3.3 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task3.3.png?ref_type=heads)
 
 Calculated the new return address that points to the shell code to be executed.
 
-![Task 3.4 Example](Images/Task3.4.png)
+![Task 3.4 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task3.4.png?ref_type=heads)
 
 Using the 2 addresses obtained in the debug, the location of the return address relative to the beginning of the array (offset) was calculated and the new return address was placed that points to the shellcode calculated previously (ret).
 
-![Task 3.5 Example](Images/Task3.5.png)
+![Task 3.5 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task3.5.png?ref_type=heads)
 
 The program was executed and generated the badfile file.
 
 Finally, the vulnerable program that caused the buffer overflow was executed and launched a shell with root permissions, as expected.
 
-![Task 3.6 Example](Images/Task3.6.png)
+![Task 3.6 Example](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%235/Images/Task3.6.png?ref_type=heads)
 
 ## Question 2 - Visualization of the memory region affected by the overflow
 
