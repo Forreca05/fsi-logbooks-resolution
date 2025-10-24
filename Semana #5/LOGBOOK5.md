@@ -66,7 +66,7 @@ Finally, the vulnerable program that caused the buffer overflow was executed and
 
 ## Question 2 - Visualization of the memory region affected by the overflow
 
-After generating ``badfile`` with ``exploit.py``, I verified the file contents with ``hexdump -C``. The file contains a NOP sled (``0x90``) from the start. At ``offset`` = 0x90 (144 decimal) the 4‑byte sequence ``a6 cc ff ff`` appears — in little‑endian this corresponds to the integer ``0xffffcca6``, which is the value written to overwrite the saved return address. The shellcode (27 bytes) begins at ``offset = 0x1ea`` (490 decimal) and contains the bytes:
+After generating ``badfile`` with ``exploit.py``, I verified the file contents with ``hexdump -C``. The file contains a NOP sled (``0x90``) from the start. At ``offset`` = 0x90 (144 decimal) the 4‑byte sequence ``a6 cc ff ff`` appears — in little‑endian this corresponds to the integer ``0xffffcca6``, which is the value written to overwrite the saved return address. The shellcode (27 bytes) begins at ``ret = 0x1ea`` (490 decimal) and contains the bytes:
 
 ```bash
 31 c0 50 68 2f 2f 73 68 68 2f 62 69 6e 89 e3 50 53 89 e1 31 d2 31 c0 b0 0b cd 80
