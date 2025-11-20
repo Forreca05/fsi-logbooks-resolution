@@ -50,9 +50,9 @@ On the server output it was possible to see:
 ![2A-received](Images/2A-received.png)
 
 The final "41414141" its the string address "AAAA" given as input. 
-Between "AAAA" and "41414141" there are 504 chars and we know that one address is contituted by 8 char, so there are 504/8 = 63 addresses on the stack between the format string and the buffer.
+"41414141" appeared after 63 other hexadecimal values (corresponding to the 63 "%x" specifiers), so we concluded that there are 63 arguments between the format string pointer and the data from our input. So, the offset of the stack to reach our input buffer is 64 (63 arguments of padding and the 64th argument that points to the buffer).
 
-So, we concluded that in this program configuration, to print the first 4 bytes from the initial input we need to create a string with exactly 63 "%x".
+So, we concluded that in this program configuration, to print the first 4 bytes from the initial input we need to create a format string with exactly 63 padding arguments ("%x" specifiers).
 
 #### 2.B
 
@@ -186,3 +186,9 @@ The core of the attack is the ability of the format string to manipulate the sta
 
 
 ### Of the tasks performed, which attacks would not work if the format string were allocated on the heap, and why?
+
+Only tasks 3.A and 3.B would not work if the string were allocated on the heap. The solution for those tasks relies on placing the target address right on the beggining of the input, which makes it a direct and conveniently located argument on the stack for the "%n" specifier. If the input buffer was on the heap, there wouldn't be this direct stack placement, making it impossible to control a specific stack argument to hold the arbitary address needed for "%n".
+
+For task 2, even though we also place the address on the beggining of the input buffer (specifically on 2.B), this doesn't affect the goal of the task, which is to read the data. These attacks only need to traverse the stack until they reach a pointer to the format string.
+
+For task 1, what causes the crash is forcing printf() to process an argument from the stack as an invalid pointer (%s). Considering that the stack arguments are usually random, a Segmentation Fault will be trigger independently of where the string is allocated.
