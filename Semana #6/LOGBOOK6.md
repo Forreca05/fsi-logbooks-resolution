@@ -123,3 +123,6 @@ We sent the file to server, receiving this output:
 ![3A-received](Images/3Areceived.png)
 
 The target variable's value is now 0x0000012e, instead of the original value of 0x11223344.
+
+#### 3.B
+
