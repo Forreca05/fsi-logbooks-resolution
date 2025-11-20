@@ -180,7 +180,9 @@ The value of server's target variable was succesfully changed to 0x5000.
 
 ### Does the format string always have to be allocated on the stack for the vulnerability to exist?
 
+No, the format string doesn't necessarily need to be allocated on the stack for there to be a vulnerability.
 
+The core of the attack is the ability of the format string to manipulate the stack pointer. That is because the function "printf()" only cares about the arguments read from the stack. So, the location of the format string (Heap or Stack) affects where the attacker has to place the target address (the one they want to read from or write to). 
 
 
 ### Of the tasks performed, which attacks would not work if the format string were allocated on the heap, and why?
