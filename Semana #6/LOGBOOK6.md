@@ -10,7 +10,7 @@ In an initial phase we turned off the address randomization, to be sure that the
 Then we opened two terminals, one with the servers using the Docker from seed-labs:
 
 ![SetupDocker1](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%236/Images/SetupDocker1.png?ref_type=heads)
-![SetupDocker2](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%236/Images/SetupDocker1.png?ref_type=heads)
+![SetupDocker2](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%236/Images/SetupDocker2.png?ref_type=heads)
 
 and the other(the client) to comunicate with the servers. This allowed to see the mensages exchanged by both sides. By sending a simple string to the server, using the command
 
