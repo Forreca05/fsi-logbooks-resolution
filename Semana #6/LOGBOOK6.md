@@ -35,7 +35,7 @@ To crash the server, all that was needed was to insert the following input strin
 
 The format string retrieves the 5 address immediately above its position on the stack and attempts to print the string at that address. This most likely occurs in an area outside the process's virtual memory.
 
-![crase-the-server](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%236/Images/crash-sent.png?ref_type=heads)
+![crase-the-server](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%236/Images/crash-the-server.png?ref_type=heads)
 
 Since the server did not receive the "Returned properly" message, the server crashed.
 
@@ -88,7 +88,7 @@ Using cat, we sent the payload to the server, which resulted in this output:
 
 ![2B-received](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%236/Images/2Breceived.png?ref_type=heads)
 
-The server displayed the "secret message" correctly, concluding task 2.B.
+The server displayed the "secret message" correctly.
 
 ### Task 3 - Modifying the Server Program’s Memory
 
