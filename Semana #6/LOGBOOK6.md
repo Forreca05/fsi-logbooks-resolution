@@ -3,7 +3,7 @@
 ## Setup
 In an initial phase we turned off the address randomization, to be sure that the attack can discover the location and order of the addresses of the program.
 
-![SetupADR](Images/SetupADR.png)
+![SetupADR](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%236/Images/SetupADR.png?ref_type=heads)
 
 
 Then we opened two terminals, one with the servers using the Docker from seed-labs:
