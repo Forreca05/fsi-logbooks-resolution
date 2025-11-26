@@ -112,7 +112,7 @@ This produced a **fully readable English article** discussing:
 * Statistical details of Oscar voting
 * Predictions and controversies
 
-![Task1-Text](Images/Task1-text.png)
+![Task1-Text](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/Task1-text.png?ref_type=heads)
 ---
 
 ## Task 2- Encryption using Different Cyphers and Models
@@ -123,7 +123,7 @@ In this task, I explored AES-128 encryption in three modes: **ECB**, **CBC**, an
 
 I created a file named `plain.txt` with 1200 bytes using the following command:
 
-![plain.txt](Images/Task2-plain.txt-creation.png)
+![plain.txt](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/Task2-plain.txt-creation.png?ref_type=heads)
 
 
 This generates 1200 random bytes as input for encryption.
@@ -134,19 +134,19 @@ This generates 1200 random bytes as input for encryption.
 
 **AES-128-ECB**
 
-![ecb-encrypting](Images/ecb-encryption.png)
+![ecb-encrypting](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-encryption.png?ref_type=heads)
 
 **Note:** ECB does not use an IV; only the key (`-K`) is required.
 
 #### **AES-128-CBC**
 
-![cbc-encrypting](Images/cbc-encryption.png)
+![cbc-encrypting](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-encryption.png?ref_type=heads)
 
 **Note:** CBC requires both the key (`-K`) and IV (`-iv`).
 
 **AES-128-CTR**
 
-![ctr-encrypting](Images/ctr-encryption.png)
+![ctr-encrypting](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ctr-encryption.png?ref_type=heads)
 
 **Note:** CTR also requires the key and IV; it functions as a stream cipher.
 
@@ -156,15 +156,15 @@ This generates 1200 random bytes as input for encryption.
 
 **AES-128-ECB**
 
-![ecb-decrypting](Images/ecb-decryption.png)
+![ecb-decrypting](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-decryption.png?ref_type=heads)
 
 **AES-128-CBC**
 
-![cbc-encrypting](Images/cbc-decryption.png)
+![cbc-encrypting](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-decryption.png?ref_type=heads)
 
 **AES-128-CTR**
 
-![ctr-encrypting](Images/ctr-decryption.png)
+![ctr-encrypting](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ctr-decryption.png?ref_type=heads)
 
 ---
 
@@ -172,7 +172,7 @@ This generates 1200 random bytes as input for encryption.
 
 I verified the decrypted files against the original using `diff`:
 
-![diff-ecb](Images/diff.png)
+![diff-ecb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/diff.png?ref_type=heads)
 
 **Result:** No differences were reported. This confirms that encryption and decryption worked correctly for all three modes.
 
