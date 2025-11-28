@@ -347,18 +347,18 @@ Because ciphertext bits are XORed with a keystream independent of ciphertext.
 1. Encrypted the 1200-byte file using all AES modes.
    Example image placeholder:
 
-![Encryption ecb](Images/ecb-encryption.png)
-![Encryption cbc](Images/cbc-encryption.png)
-![Encryption cfb](Images/cfb-encryption.png)
-![Encryption ofb](Images/ofb-encryption.png)
+![Encryption ecb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-encryption.png)
+![Encryption cbc](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-encryption.png)
+![Encryption cfb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cfb-encryption.png)
+![Encryption ofb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ofb-encryption.png)
 
 
 2. Opened each ciphertext using **Bless**.
 
-![Bless Editor ecb](Images/ecb-byte55.png)
-![Bless Editor cbc](Images/cbc-byte55.png)
-![Bless Editor cfb](Images/cfb-byte55.png)
-![Bless Editor ofb](Images/ofb-byte55.png)
+![Bless Editor ecb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-byte55.png)
+![Bless Editor cbc](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-byte55.png)
+![Bless Editor cfb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cfb-byte55.png)
+![Bless Editor ofb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ofb-byte55.png)
 
 3. Modified the byte at position **55** by flipping a bit.
 4. Decrypted all corrupted ciphertext files.
@@ -377,7 +377,7 @@ The results matched the theoretical predictions perfectly.
 * Block 48–63 was corrupted.
 * All other bytes were correct.
 
-![ecb-comparation](Images/ecb-comparation.png)
+![ecb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-comparation.png)
 
 ---
 
@@ -387,7 +387,7 @@ The results matched the theoretical predictions perfectly.
 * Block 64–79: exactly **one byte** corrupted
 * Remaining data correct
   
-![cbc-comparation](Images/cbc-comparation.png)
+![cbc-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-comparation.png)
 
 
 ---
@@ -397,7 +397,7 @@ The results matched the theoretical predictions perfectly.
 * One byte corrupted in block 48–63
 * Block 64–79 entirely corrupted
 
-![cfb-comparation](Images/cfb-comparation.png)
+![cfb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cfb-comparation.png)
 
 
 ---
@@ -407,7 +407,7 @@ The results matched the theoretical predictions perfectly.
 * Only byte 55 incorrect
 * Everything else identical to original
 
-![ofb-comparation](Images/ofb-comparation.png)
+![ofb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ofb-comparation.png)
 
 
 ---
