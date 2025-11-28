@@ -246,192 +246,156 @@ In contrast, **AES-128-ECB and AES-128-CBC** are **block-based modes**, require 
 
 ### **1. Introduction**
 
-In this task, the objective was to analyze how different AES encryption modes behave when the ciphertext is partially corrupted.
-Using the previously generated `plain.txt` file (≈1200 bytes), I encrypted it using several AES-128 modes and then manually corrupted **byte 55** of each ciphertext using the **Bless hex editor**.
+The goal of this task was to analyze how different AES encryption modes behave when the ciphertext is partially corrupted.
 
-After corrupting the ciphertext, I decrypted it using the correct key and IV and compared the results with the original plaintext to measure how much information was lost.
+Using the previously generated `plain.txt` file (≈1200 bytes), I encrypted it using three AES-128 modes and then manually corrupted **byte 200** of each ciphertext using the **Bless** hex editor.
+
+After corruption, each ciphertext was decrypted using the correct key and IV, and the resulting plaintexts were compared to the original to evaluate information loss.
 
 The AES modes tested:
 
 * **AES-128-ECB**
 * **AES-128-CBC**
-* **AES-128-CFB**
-* **AES-128-OFB**
+* **AES-128-CTR**
 
-Because AES works on **16-byte blocks**, error propagation depends heavily on the mode.
-
----
-
-## **2. Preliminary Block Calculation**
-
-The corrupted byte was the **55th byte** of the ciphertext.
-AES uses 16-byte blocks, so:
-
-[
-\text{Block index} = \left\lfloor \frac{55 - 1}{16} \right\rfloor
-= \left\lfloor \frac{54}{16} \right\rfloor = 3
-]
-
-Thus:
-
-* The corrupted byte belongs to **Block 3** (0-based indexing)
-* That block covers plaintext offsets **48–63**
-
-This is essential for understanding how corruption propagates.
+Because AES operates on **16-byte blocks**, error propagation heavily depends on the mode.
 
 ---
 
-## **3. Expected Behavior (Before Conducting Experiments)**
+### **2. Block Calculation**
 
-Below are the theoretical predictions **before modifying the ciphertext**.
+The corrupted byte is the **200th byte** of the ciphertext.
+
+AES block size = **16 bytes**, so:
+
+200/16 = 12
+
+Therefore:
+
+* The corrupted byte lies in **Block 12** (0-based indexing)
+* That block corresponds to plaintext offsets **192–207**
 
 ---
 
-### **3.1 AES-128-ECB — Block Independent**
+### **3. Expected Behavior (Before Conducting the Experiment)**
+
+Below are the theoretical predictions for each AES mode.
+
+---
+
+#### **3.1 AES-128-ECB — Block Independence**
 
 **Prediction:**
-Only the corrupted block becomes unreadable.
 
-* A single corrupted byte in ciphertext block *C₃* destroys only plaintext block *P₃*.
-* No propagation.
+* Only the corrupted block (block 12) becomes unreadable.
+* No propagation to other blocks.
 
-**Expected information loss:**
+**Expected information loss:**  
 ➡️ **16 bytes**
 
 ---
 
-### **3.2 AES-128-CBC — Chained Blocks**
+#### **3.2 AES-128-CBC — Chained Blocks**
 
 **Prediction:**
-Two kinds of corruption:
 
-1. **Block 3 (48–63): fully corrupted**
-   Because `Dec(C₃)` becomes random.
+1. **Block 12 (192–207): fully corrupted**  
+   Because `Dec(C₁₂)` becomes random.
 
-2. **Block 4 (64–79): exactly one byte corrupted**
-   Because corrupted `C₃` is XORed during CBC decryption.
+2. **Block 13 (208–223): 1 corrupted byte**  
+   Because the corrupted byte in `C₁₂` is XORed into the next block.
 
-**Expected information loss:**
-➡️ **16 bytes destroyed + 1 byte with bit flipped**
+**Expected information loss:**  
+➡️ **16 bytes destroyed + 1 byte corrupted**
 
 ---
 
-### **3.3 AES-128-CFB — Feedback Propagates Error**
+#### **3.3 AES-128-CTR — Stream Cipher Behavior**
 
 **Prediction:**
 
-* In block 3: only **one byte** becomes corrupted (bit flip).
-* In block 4: **entire block becomes corrupted** (bad ciphertext fed into keystream).
+* Only the modified ciphertext byte affects the plaintext.
+* No error propagation.
 
-**Expected information loss:**
-➡️ **1 byte partially corrupted + 16 bytes fully corrupted**
-
----
-
-### **3.4 AES-128-OFB — Stream Cipher Mode**
-
-**Prediction:**
-
-* Only **one byte** is corrupted.
-* No propagation.
-
-Because ciphertext bits are XORed with a keystream independent of ciphertext.
-
-**Expected information loss:**
+**Expected information loss:**  
 ➡️ **1 byte**
 
 ---
 
-## **4. Experimental Procedure**
+### **4. Experimental Procedure**
 
-1. Encrypted the 1200-byte file using all AES modes.
-   Example image placeholder:
+1. Encrypted the plaintext using AES-ECB, AES-CBC and AES-CTR.
 
-![Encryption ecb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-encryption.png)
-![Encryption cbc](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-encryption.png)
-![Encryption cfb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cfb-encryption.png)
-![Encryption ofb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ofb-encryption.png)
-
+![ecb-encrytion](Images/ecb-encryption2.png)
+![cbb-encrytion](Images/cbc-encryption2.png)
+![ctr-encrytion](Images/ctr-encryption2.png)
 
 2. Opened each ciphertext using **Bless**.
 
-![Bless Editor ecb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-byte55.png)
-![Bless Editor cbc](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-byte55.png)
-![Bless Editor cfb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cfb-byte55.png)
-![Bless Editor ofb](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ofb-byte55.png)
+![ecb-byte200](Images/ecb-byte200.png)
+![cbc-byte200](Images/cbc-byte200.png)
+![ctr-byte200](Images/ctr-byte200.png)
 
-3. Modified the byte at position **55** by flipping a bit.
-4. Decrypted all corrupted ciphertext files.
-5. Compared them using `cmp`, `diff`, and `hexdump`.
+3. Modified **byte 200** in each ciphertext.  
+4. Decrypted all corrupted ciphertexts. 
+    
+![ecb-decrytion](Images/ecb-decryption2.png)
+![cbb-decrytion](Images/cbc-decryption2.png)
+![ctr-decrytion](Images/ctr-decryption2.png)
 
----
-
-## **5. Experimental Results**
-
-The results matched the theoretical predictions perfectly.
+5. Compared them with the original plaintext using `cmp`, `diff`, and `hexdump`.
 
 ---
 
-### **ECB – Only One Block Lost**
+### **5. Experimental Results**
 
-* Block 48–63 was corrupted.
-* All other bytes were correct.
-
-![ecb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-comparation.png)
+The results fully matched the theoretical predictions.
 
 ---
 
-### **CBC – One Full Block + 1 Byte**
+### **ECB – Only the Corrupted Block Is Affected**
 
-* Block 48–63: fully corrupted
-* Block 64–79: exactly **one byte** corrupted
-* Remaining data correct
-  
-![cbc-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-comparation.png)
+* Block **192–207** was completely corrupted.  
+* All remaining bytes were correct.
 
+![ecb-comparation](Images/ecb-comparation.png)
 
 ---
 
-### **CFB – One Byte + One Full Block**
+### **CBC – One Full Block + One Byte Corrupted**
 
-* One byte corrupted in block 48–63
-* Block 64–79 entirely corrupted
+* Block **192–207**: fully corrupted  
+* Block **208–223**: exactly **one byte** corrupted  
 
-![cfb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cfb-comparation.png)
-
-
----
-
-### **OFB – Only One Byte Affected**
-
-* Only byte 55 incorrect
-* Everything else identical to original
-
-![ofb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ofb-comparation.png)
-
+![cbc-comparation](Images/cbc-comparation.png)
 
 ---
 
-## **6. Summary Table**
+### **CTR – Only One Byte Affected**
 
-| AES Mode | Fully Lost Data | Partially Corrupted Data | Error Propagation                     |
-| -------- | --------------- | ------------------------ | ------------------------------------- |
-| **ECB**  | 16 bytes        | 0 bytes                  | Only the affected block               |
-| **CBC**  | 16 bytes        | 1 byte                   | One block + one byte in next block    |
-| **CFB**  | 16 bytes        | 1 byte                   | One byte + next block fully corrupted |
-| **OFB**  | 0 bytes         | 1 byte                   | No propagation                        |
+* Only the plaintext byte corresponding to ciphertext byte 200 was corrupted.  
+* No additional errors.
+
+![ctr-comparation](Images/ctr-comparation.png)
 
 ---
 
-## **7. Conclusion**
+### **6. Summary Table**
 
-This task demonstrated how error propagation differs significantly among AES modes:
+| AES Mode | Fully Lost Data | Partially Corrupted Data | Error Propagation |
+|----------|------------------|---------------------------|--------------------|
+| **ECB**  | 16 bytes         | 0 bytes                   | Only the modified block |
+| **CBC**  | 16 bytes         | 1 byte                    | One block + one byte in next block |
+| **CTR**  | 0 bytes          | 1 byte                    | No propagation |
 
-* **ECB** has no chaining → corruption limited to one block.
-* **CBC** chains blocks → destroys one block and corrupts 1 byte in the next block.
-* **CFB** feeds ciphertext into the keystream → corrupts one byte and the entire next block.
-* **OFB** behaves like a synchronous stream cipher → only one byte is affected.
+---
 
-In the end, the results matched, confirming the previsions made in the begining.
+### **7. Conclusion**
 
+This experiment demonstrated clear differences in how AES modes propagate errors:
 
+* **ECB** has no chaining, so corruption is limited to a single 16-byte block.
+* **CBC** chains blocks, causing one full block to be destroyed and one additional byte to be corrupted.
+* **CTR** behaves like a synchronous stream cipher, so only the modified byte is affected.
+
+The experimental results confirmed the theoretical predictions perfectly.
