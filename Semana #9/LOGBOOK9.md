@@ -326,22 +326,22 @@ Below are the theoretical predictions for each AES mode.
 
 1. Encrypted the plaintext using AES-ECB, AES-CBC and AES-CTR.
 
-![ecb-encrytion](Images/ecb-encryption2.png)
-![cbb-encrytion](Images/cbc-encryption2.png)
-![ctr-encrytion](Images/ctr-encryption2.png)
+![ecb-encrytion](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-encryption2.png)
+![cbb-encrytion](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-encryption2.png)
+![ctr-encrytion](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ctr-encryption2.png)
 
 2. Opened each ciphertext using **Bless**.
 
-![ecb-byte200](Images/ecb-byte200.png)
-![cbc-byte200](Images/cbc-byte200.png)
-![ctr-byte200](Images/ctr-byte200.png)
+![ecb-byte200](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-byte200.png)
+![cbc-byte200](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-byte200.png)
+![ctr-byte200](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ctr-byte200.png)
 
 3. Modified **byte 200** in each ciphertext.  
 4. Decrypted all corrupted ciphertexts. 
     
-![ecb-decrytion](Images/ecb-decryption2.png)
-![cbb-decrytion](Images/cbc-decryption2.png)
-![ctr-decrytion](Images/ctr-decryption2.png)
+![ecb-decrytion](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-decryption2.png)
+![cbc-decrytion](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/cbc-decryption2.png)
+![ctr-decrytion](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ctr-decryption2.png)
 
 5. Compared them with the original plaintext using `cmp`, `diff`, and `hexdump`.
 
@@ -358,7 +358,7 @@ The results fully matched the theoretical predictions.
 * Block **192–207** was completely corrupted.  
 * All remaining bytes were correct.
 
-![ecb-comparation](Images/ecb-comparation.png)
+![ecb-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%239/Images/ecb-comparation.png)
 
 ---
 
@@ -367,7 +367,7 @@ The results fully matched the theoretical predictions.
 * Block **192–207**: fully corrupted  
 * Block **208–223**: exactly **one byte** corrupted  
 
-![cbc-comparation](Images/cbc-comparation.png)
+![cbc-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%239/Images/cbc-comparation.png)
 
 ---
 
@@ -376,7 +376,7 @@ The results fully matched the theoretical predictions.
 * Only the plaintext byte corresponding to ciphertext byte 200 was corrupted.  
 * No additional errors.
 
-![ctr-comparation](Images/ctr-comparation.png)
+![ctr-comparation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%239/Images/ctr-comparation.png)
 
 ---
 
