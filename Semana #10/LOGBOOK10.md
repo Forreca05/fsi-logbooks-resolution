@@ -170,3 +170,95 @@ Breakdown:
 - `%00%00%00%00%00%00%01%60` (length field)
 
 ## Task 3- The Length Extension Attack
+
+Entendido 👌 — vou reestruturar o teu relatório da **Task 3** para que fique mais claro e com os espaços reservados para as imagens exatamente onde antes tinhas colocado blocos de código. Assim, cada imagem aparece como parte da explicação, em vez de estar misturada com texto corrido.
+
+---
+
+## Task 3 – The Length Extension Attack
+
+I started with the original request from Task 1:
+
+```
+myname=JoaoFerreira&uid=1002&lstcmd=1
+```
+
+From that request, I computed the MAC using SHA‑256 with the secret key. That digest was my starting point and represents the internal state of the hash after processing the original message.
+
+---
+
+### Step 1 – Adjusting the code
+In `length_ext.c`, I replaced the eight 32‑bit words (`c.h[0]` … `c.h[7]`) with the values corresponding to the MAC I had obtained in Task 1. Each of these words encodes part of the SHA‑256 internal state. By injecting them directly into the context, I effectively resumed hashing from the point where the original message ended, instead of starting from scratch.
+
+This is the critical trick: I don’t need the secret key anymore, because I can continue the hash computation from a digest that was already produced by the server.
+
+  
+![length_ext](Images/length_ext.png)
+
+---
+
+### Step 2 – Choosing the extension
+Next, I changed the `"Extra message"` string in the code to the parameter I wanted to add. For example:
+
+```
+&download=secret.txt
+```
+
+This simulates appending new data to the original authenticated message. The program continues hashing as if the server had processed:
+
+```
+original_message + padding + &download=secret.txt
+```
+
+This way, I can forge a new request that the server will accept as valid.
+
+---
+
+### Step 3 – Understanding the compression
+What the code does is simulate the compression function of SHA‑256. By setting the internal state to the digest of the original message, I was able to execute one more round of hashing with the extra data.  
+
+This is exactly the **length extension attack** described in theory: even without knowing the secret key, I can extend a valid authenticated message into another one. The vulnerability comes from the Merkle–Damgård construction of SHA‑256, which allows the digest to be used as a continuation point.
+
+---
+
+### Step 4 – Building the final request
+Finally, I constructed the URL with three sequential parts:
+
+1. **The original request from Task 1**  
+   ```
+   myname=JoaoFerreira&uid=1002&lstcmd=1
+   ```
+
+2. **The SHA‑256 padding from Task 2, URL‑encoded**  
+   ```
+   %80%00...%01%60
+   ```
+   This padding ensures the message length aligns with SHA‑256’s block structure.
+
+3. **My extension and the new MAC**  
+   ```
+   &download=secret.txt
+   &mac=222ecbac1fa00226bbcd804806a2f784767935efa62d06ae65656fd740fac9ea
+   ```
+
+  
+![length_ext](Images/length-mac.png)
+
+So the final URL looked like:
+
+```
+http://www.seedlab-hashlen.com/?myname=JoaoFerreira&uid=1002&lstcmd=1%80%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%01%60&download=secret.txt&mac=222ecbac1fa00226bbcd804806a2f784767935efa62d06ae65656fd740fac9ea
+```
+
+---
+
+### What I achieved
+By following these steps, I managed to create a valid MAC for a new request without ever using the secret key. The server accepted it because the MAC matched the extended message.  
+
+![length_ext](Images/attack-result.png)
+
+This demonstrates that using `SHA256(key || message)` for authentication is insecure: any authenticated request can be extended into another valid one.  
+
+In other words, I successfully carried out a **hash length extension attack** in practice, exactly as explained in the lectures.  
+
+  
