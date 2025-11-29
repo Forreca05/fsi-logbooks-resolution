@@ -169,11 +169,7 @@ Breakdown:
 - `%00` repeated 11 times (zeros)  
 - `%00%00%00%00%00%00%01%60` (length field)
 
-## Task 3- The Length Extension Attack
 
-Entendido 👌 — vou reestruturar o teu relatório da **Task 3** para que fique mais claro e com os espaços reservados para as imagens exatamente onde antes tinhas colocado blocos de código. Assim, cada imagem aparece como parte da explicação, em vez de estar misturada com texto corrido.
-
----
 
 ## Task 3 – The Length Extension Attack
 
