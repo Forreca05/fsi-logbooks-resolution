@@ -27,7 +27,7 @@ To allow the server to be accessed through the hostname defined for this lab, an
 10.9.0.80  www.seedlab-hashlen.com
 ```
  
-![Server-added](Images/hosts-added.png)
+![Server-added](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/hosts-added.png?ref_type=heads)
 
 This ensures that any HTTP request to `www.seedlab-hashlen.com` is correctly routed to the web server container.
 
@@ -48,7 +48,7 @@ This demonstrates both the listing functionality and the ability to access file 
 
 1. **Choose UID and secret key**  
    - In the file `key.txt` located in the `LabHome` directory, each line contains pairs in the format `uid:key`.  
-   ![key.txt](Images/key.txt.png)
+   ![key.txt](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/key.txt.png?ref_type=heads)
 
    - For this task, we select **UID 1002** with the associated key **983abe**.
 
@@ -71,7 +71,7 @@ This demonstrates both the listing functionality and the ability to access file 
 
 4. **Calculate the MAC (SHA-256)**  
    - The MAC is computed using the following command:  
-    ![lst-mac](Images/lst-mac.png)
+    ![lst-mac](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/lst-mac.png?ref_type=heads)
      
    - Result:  
      ```
@@ -84,7 +84,7 @@ This demonstrates both the listing functionality and the ability to access file 
      http://www.seedlab-hashlen.com/?myname=JoaoFerreira&uid=1002&lstcmd=1&mac=cb9ca57a2c3da76c4f9e85cf54618ae42deb734471793dba4860bf2efa9e5332
      ```
    - The server responds with the **list of available files**.  
-   ![lst-result](Images/lst-result.png)
+   ![lst-result](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/lst-result.png?ref_type=heads)
 
 6. **Construct the parameter string for download (R)**  
    - To download a file, we just had to add `download=<filename>`.  
@@ -96,7 +96,7 @@ This demonstrates both the listing functionality and the ability to access file 
 7. **Concatenate with the secret key and calculate MAC**  
    - Command:  
     The MAC is computed using the following command:
-    ![download-mac](Images/download-mac.png)
+    ![download-mac](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/download-mac.png?ref_type=heads)
 
    - Result:  
      ```
@@ -109,7 +109,7 @@ This demonstrates both the listing functionality and the ability to access file 
      http://www.seedlab-hashlen.com/?myname=JoaoFerreira&uid=1002&lstcmd=1&download=secret.txt&mac=76b069a0d6082d7ca421c234ec2a03ba49c02efe6921e7b7da1d9e97c748b284
      ```
    - The server validates the MAC and returns the **contents of `secret.txt`**.  
-   ![download-result](Images/download-result.png)
+   ![download-result](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/download-result.png?ref_type=heads)
 
 ---
 
@@ -132,7 +132,7 @@ This shows the importance of the **MAC** in authenticating requests and ensuring
 ## Task 2- Create Padding
 
 First we needed to calculate the length of the message:
-![echonrwords](Images/echonrwords.png)
+![echonrwords](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/echonrwords.png?ref_type=heads)
 
 ---
 
@@ -193,7 +193,7 @@ In `length_ext.c`, I replaced the eight 32‑bit words (`c.h[0]` … `c.h[7]`) w
 This is the critical trick: I don’t need the secret key anymore, because I can continue the hash computation from a digest that was already produced by the server.
 
   
-![length_ext](Images/length_ext.png)
+![length_ext](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/length_ext.png?ref_type=heads)
 
 ---
 
@@ -242,7 +242,7 @@ Finally, I constructed the URL with three sequential parts:
    ```
 
   
-![length_ext](Images/length-mac.png)
+![length_ext](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/length-mac.png?ref_type=heads)
 
 So the final URL looked like:
 
@@ -255,7 +255,7 @@ http://www.seedlab-hashlen.com/?myname=JoaoFerreira&uid=1002&lstcmd=1%80%00%00%0
 ### What I achieved
 By following these steps, I managed to create a valid MAC for a new request without ever using the secret key. The server accepted it because the MAC matched the extended message.  
 
-![length_ext](Images/attack-result.png)
+![length_ext](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2310/Images/attack-result.png?ref_type=heads)
 
 This demonstrates that using `SHA256(key || message)` for authentication is insecure: any authenticated request can be extended into another valid one.  
 
