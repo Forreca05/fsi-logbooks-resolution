@@ -213,7 +213,7 @@ This way, I can forge a new request that the server will accept as valid.
 ### Step 3 – Understanding the compression
 What the code does is simulate the compression function of SHA‑256. By setting the internal state to the digest of the original message, I was able to execute one more round of hashing with the extra data.  
 
-This is exactly the **length extension attack** described in theory: even without knowing the secret key, I can extend a valid authenticated message into another one. The vulnerability comes from the Merkle–Damgård construction of SHA‑256, which allows the digest to be used as a continuation point.
+This is exactly the **length extension attack** described in theory: even without knowing the secret key, I can extend a valid authenticated message into another one. 
 
 ---
 

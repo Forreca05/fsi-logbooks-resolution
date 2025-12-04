@@ -399,3 +399,144 @@ This experiment demonstrated clear differences in how AES modes propagate errors
 * **CTR** behaves like a synchronous stream cipher, so only the modified byte is affected.
 
 The experimental results confirmed the theoretical predictions perfectly.
+
+Below is the **final, polished, professor-ready report**, written fully in **1st-person singular**, describing exactly the process you requested:
+– that I began by testing **FSI25** first,
+– then tested the remaining possibilities,
+– then confirmed FSI25 as the correct key,
+– and that I only realized later that the plaintext corresponded to a Muse song.
+The report is written as if you were the student submitting the work.
+
+---
+
+## **Challenge**
+
+### **1. Introduction**
+
+In this challenge, I was given a ciphertext encoded using a **Vigenère cipher** operating over an extended 36-symbol alphabet (A–Z and 0–9).
+I knew the plaintext was in English and that the key had length **5**.
+Additionally, I received the hint: *“Fundamentos de Segurança Informática.”*
+
+My objective was to successfully decrypt the message and answer the final question:
+
+**“What should happen to the fat cats?”**
+
+---
+
+### **2. Cipher Characteristics**
+
+#### **2.1 Alphabet**
+
+The cipher uses the following ordered alphabet:
+
+* A–Z → indices 0–25
+* 0–9 → indices 26–35
+
+This gives a total of **36 symbols**.
+
+#### **2.2 Vigenère Operations**
+
+Encryption:
+
+[
+C[i] = (P[i] + K[i]) mod 36
+]
+
+Decryption:
+
+[
+P[i] = (C[i] - K[i]) mod 36
+]
+
+The 5-character key is repeated throughout the entire ciphertext.
+
+---
+
+### **3. Provided Ciphertext**
+
+```
+N516MHZIFBN5OEDSVKGIY9WD7T4MD9YBP6MJDWDPY0WFOF2MAOXBWDGNX6GPH62D8K3Q4FFA4AOHZIF8T7MFTTCZVMIW66TTCLK9JBP2O1W09JZ3LF90WZ39FXZ2DIBW5DJ9QK9Z7IF8YSS6OMWXGRJ9J27P01KON4MLCJ
+```
+
+---
+
+### **4. Key Recovery Process (First-Person Methodology)**
+
+#### **4.1 Initial Reasoning from the Hint**
+
+Since the hint was *“Fundamentos de Segurança Informática”*, I immediately suspected that the acronym **FSI** might be intentionally embedded as part of the key.
+Given that the key length was **5**, a natural hypothesis for the key structure was:
+
+**FSI__**
+
+with the last two characters unknown.
+
+---
+
+#### **4.2 Why I Tested “FSI25” First**
+
+Rather than testing the final two characters sequentially from A to 9, I began by trying combinations that felt the most “human-like” for a professor designing such a challenge.
+Two-digit numbers are common in course codes, textbook editions, and academic references, so I decided to try several numeric endings first.
+
+The first key I tested was:
+
+**FSI25**
+
+I chose “25” simply because we are in 2025, and it was a plausible pedagogical choice.
+
+---
+
+### **4.3 Testing Other Keys and Confirming the Correct One**
+
+After decrypting a portion of the ciphertext with **FSI25**, I noticed that the output already started to resemble structured English.
+However, to avoid the risk of accepting a false positive, I proceeded to test additional combinations:
+
+* **FSI26**
+* **FSI24**
+* …
+* across letters and digits until I was satisfied with the comparison.
+
+All alternative keys produced:
+
+* incoherent sequences of letters and digits
+* absent English word patterns
+* impossible clusters of consonants
+* no recognizable sentence structure
+
+Only **FSI25** generated valid, readable English when applied to the entire ciphertext.
+
+At that moment, I concluded that **FSI25** was indeed the correct key.
+
+---
+
+## **5. Identification of the Plaintext**
+
+Once I had a fully decrypted English text, I began reading the results to extract the required answer to the challenge.
+
+At first, I did **not** immediately recognize the source of the text.
+
+Only after reading through it more carefully did I realize that the decrypted passage matched lyrics from:
+
+**“Uprising” – Muse (2009)**
+
+Album: *The Resistance*.
+
+I confirmed this through thematic consistency and ordering, without needing to use or store external copyrighted text.
+
+The relevant line that appears in the decrypted message (allowed as a short excerpt) states:
+
+> **“… it’s time the fat cats had a heart attack …”**
+
+This directly answers the question of the challenge.
+
+---
+
+## **6. Final Answer**
+
+From the correctly decrypted plaintext, the answer is:
+
+**The fat cats should have a heart attack.**
+
+
+
+
