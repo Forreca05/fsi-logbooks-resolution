@@ -400,13 +400,6 @@ This experiment demonstrated clear differences in how AES modes propagate errors
 
 The experimental results confirmed the theoretical predictions perfectly.
 
-Below is the **final, polished, professor-ready report**, written fully in **1st-person singular**, describing exactly the process you requested:
-– that I began by testing **FSI25** first,
-– then tested the remaining possibilities,
-– then confirmed FSI25 as the correct key,
-– and that I only realized later that the plaintext corresponded to a Muse song.
-The report is written as if you were the student submitting the work.
-
 ---
 
 ## **Challenge**
