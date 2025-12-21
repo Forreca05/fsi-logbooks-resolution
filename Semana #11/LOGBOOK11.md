@@ -71,11 +71,11 @@ The goal of this task is to simulate a website owner generating a Certificate Si
 
 To obtain a trusted certificate, we first had to generate a private key for the server and a corresponding CSR. We used the domain www.guilherme2025.com as our identity and included the two asked alternative names to the certificate signing request.
 
-![key-generation](Images/task2-keygen.png)
+![key-generation](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task2-keygen.png?ref_type=heads)
 
 Then, using "openssl req -in guilherme.csr -text -noout" we were able to get the certificate, with the alternative names:
 
-![Certificate](Images/task2-certificate.png)
+![Certificate](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task2-certificate.png?ref_type=heads)
 
 ## Task 3 - Generating a Certificate for your server
 
@@ -85,15 +85,15 @@ To transform the CSR into a trusted certificate, the CA must process the request
 
 Firstly, we uncommented the line "copy extensions = copy"
 
-![Copy_extensions](Images/Task3-copyext.png)
+![Copy_extensions](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task2-certificate.png?ref_type=heads)
 
 Using the OpenSSL ca command, we signed the guilherme.csr file.
 
-![csr](Images/task3-certificate.png)
+![csr](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task3-certificate.png?ref_type=heads)
 
 Finally, we used "openssl x509 -in guilherme.crt -text -noout" to verify that the alternative names were present in the certificate
 
-![Alternative-names](Images/task3-names.png)
+![Alternative-names](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task3-names.png?ref_type=heads)
 
 ## Task 4 - Deploying Certificate in an Apache-Based HTTPS Website
 
@@ -101,27 +101,27 @@ The goal of this task is to configure an Apache web server with the signed certi
 
 Firstly, we moved the files "guilherme.key", "guilherme.crt" and "guilherme.crs" into the lab's shared volume directory:
 
-![volumes](Images/task4-volumes.png)
+![volumes](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-volumes.png?ref_type=heads)
 
 Then we got inside the image given to us by the labsetup, using "docksh e9"
 
-![image](Images/setup-containers.png)
+![image](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/setup-containers.png?ref_type=heads)
 
 From here, we ran ```nano /etc/apache2/sites-available/guilherme2025_apache_ssl.conf``` to create a file for our server. It contains the following:
 
-![firstconfig](Images/task4-apacheconfig.png)
+![firstconfig](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-apacheconfig.png?ref_type=heads)
 
 For now, we'll use the same html as bank32, so we keep the ```DocumentRoot /var/www/bank32```. We complete the setup with the commands given by the guide, just to double check, and then use "service apache2 start"
 
-![apacheCommands](Images/task4-startapache.png)
+![apacheCommands](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-startapache.png?ref_type=heads)
 
 Then, we visit the website <https://www.guilherme2025.com> and we are prompted with a warning that asks us whether we want to continue. After saying yes, we get this:
 
-![sitewithbank](Images/task4-site-with-bank.png)
+![sitewithbank](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-site-with-bank.png?ref_type=heads)
 
 Now, we'll change the html of our website. For this, we will change the ``guilherme2025_apache_ssl.conf`` so that the Document Root is now "/var/www/guilherme2025"
 
-![configchanges](Images/task4-configchanges.png)
+![configchanges](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-configchanges.png?ref_type=heads)
 
 Now, we only need to create the new path and index file
 
@@ -134,15 +134,15 @@ nano /var/www/guilherme2025/index.html
 
 Before visiting the site, the Root CA certificate (ca.crt) was imported into the Firefox browser. We checked the box "This certificate can identify websites" to authorize the browser to trust certificates signed by our "Model CA".
 
-![CA-trust](Images/task4-catrust.png)
+![CA-trust](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-catrust.png?ref_type=heads)
 
 So, when we access <www.guilherme2025.com> we get the "Different from Bank32" and the secure connection to the site (we are not prompted with the warning anymore)
 
-![siteguilherme](Images/task4-site-with-guilherme.png)
+![siteguilherme](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-site-with-guilherme.png?ref_type=heads)
 
 To end this task, if we look at the certificate, we will see the organization is now "Guilherme Bank", instead of bank32, and the alternative DNS Names appear sucessfully
 
-![cetificate](Images/task4-site-certificate.png)
+![cetificate](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-site-certificate.png?ref_type=heads)
 
 ## Task 5 - Launching a Man-In-The-Middle Attack
 
@@ -150,15 +150,15 @@ The goal of this task is to observe how the browser's identity verification proc
 
 For the first step, we created a new _apache_ssl.conf file,for the website we want, in our case, youtube. So, we use ``nano /etc/apache2/sites-available/youtube_apache_ssl.conf`` to create the file:
 
-![youtubeconfig](Images/task5-ytconfig.png)
+![youtubeconfig](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task5-ytconfig.png?ref_type=heads)
 
 We then changed out "etc/hosts" and added ``10.9.0.80   www.youtube.com``. This way, when we open <www.youtube.com>, we will be redirected to our own html, instead of the actual public website.
 
-![etchosts](Images/task5-modifyingetchosts.png)
+![etchosts](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task5-modifyingetchosts.png?ref_type=heads)
 
 And so, when we try to go to youtube, we get prompted with the warning once more (connection is blocked), and if we go through with connection to the website, we get this:
 
-![youtubevisit](Images/task5-ytvisit.png)
+![youtubevisit](Ihttps://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task5-ytvisit.png?ref_type=heads)
 
 We are redirected to our html, and the connection is marked as not secure (as we can see from the padlock with the red stripe).
 
@@ -168,16 +168,16 @@ For this final task, we followed the same setup as Task 5, only now for Google.
 
 We created a google_apache_ssl.conf (and added ``10.9.0.80   www.google.com`` to "etc/hosts"):
 
-![googleapache](Images/task6-apache.png)
+![googleapache](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task6-apache.png?ref_type=heads)
 
 These "malicious.crt" and "malicious.key" are the ones we generated and signed using our compromised ca.key. Since we possess the trusted key, the resulting certificate is cryptographically indistinguishable from a real one to the browser.
 
-![malicious-key](Images/task6-maliciouskey.png)
-![maliciouscsr](Images/task6-certificate.png)
+![malicious-key](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task6-maliciouskey.png?ref_type=heads)
+![maliciouscsr](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task6-certificate.png?ref_type=heads)
 
 So, after this setup, when we search for <www.google.com> we are not prompted with any warning whatsoever, and we are still redirected to our html, with a "secure connection" (as we can se from the secure padlock).
 
-![Final](Images/task6-final.png)
+![Final](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task6-final.png?ref_type=heads)
 
 Unlike Task 5, where the browser protects the user from a name mismatch, Task 6 succeeds because we used a compromised key to create a certificate that is cryptographically valid AND identically named.
 
