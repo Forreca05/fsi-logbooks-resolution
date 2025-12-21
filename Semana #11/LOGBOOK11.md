@@ -158,7 +158,7 @@ We then changed out "etc/hosts" and added ``10.9.0.80   www.youtube.com``. This 
 
 And so, when we try to go to youtube, we get prompted with the warning once more (connection is blocked), and if we go through with connection to the website, we get this:
 
-![youtubevisit](Ihttps://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task5-ytvisit.png?ref_type=heads)
+![youtubevisit](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task5-ytvisit.png?ref_type=heads)
 
 We are redirected to our html, and the connection is marked as not secure (as we can see from the padlock with the red stripe).
 
