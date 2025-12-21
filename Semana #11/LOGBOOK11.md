@@ -14,17 +14,17 @@ dcup
 ```
 To verify if the setup was correct, we used "dockps" and "docksh" and obtained this result:
 
-![setup-containers](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/setup-containers.png?ref_type=heads)
+![setup-containers](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/setup-containers.png?ref_type=heads)
 
 ### DNS Setup
 
 Here, we edited the `/etc/hosts` to contain the following entries:
 
-![setup-etc-hosts](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/setup-etchosts.png?ref_type=heads)
+![setup-etc-hosts](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/setup-etchosts.png?ref_type=heads)
 
 with www.guilherme2025.com and www.bank32.com present, we tested the connection by pinging the first entry:
 
-![setup-ping](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/setup-ping.png?ref_type=heads)
+![setup-ping](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/setup-ping.png?ref_type=heads)
 
 ## Task 1 - Becoming a Certificate Authority (CA)
 
@@ -32,15 +32,15 @@ The goal of this task is to establish a Root Certificate Authority (CA) by creat
 
 Before generating cryptographic material, the environment must be prepared to function as a CA. This involves creating a specific directory structure for record-keeping and modifying the OpenSSL configuration to support multiple certificate issuances.
 
-![Setup](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/Task1-setup.png?ref_type=heads)
+![Setup](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/Task1-setup.png?ref_type=heads)
 
 We edited "openssl.cnf" to allow the creation of multiple certificates with the same subject name, which is necessary for the iterative nature of the lab tasks.
 
-![unique_subject](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/Task1-unique_subject.png?ref_type=heads)
+![unique_subject](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/Task1-unique_subject.png?ref_type=heads)
 
 After this setup, using OpenSSL, we generated a 4096-bit RSA private key and a self-signed Root CA certificate.
 
-![generate-key](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/task1-Generatekey.png?ref_type=heads)
+![generate-key](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task1-Generatekey.png?ref_type=heads)
 
 Then, following the commands given by the guide, we were able to gather the information needed to answer the questions asked in the end of task 1.
 
@@ -48,22 +48,22 @@ Then, following the commands given by the guide, we were able to gather the info
 
 The certificate is confirmed as a CA certificate through the X509v3 Basic Constraints extension, as the field states CA:TRUE.
 
-![CA-TRUE](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/Task1-CA-True.png?ref_type=heads)
+![CA-TRUE](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/Task1-CA-True.png?ref_type=heads)
 
 *What part of the certificate indicates this is a self-signed certificate?*
 
 A certificate is self-signed if the Issuer and the Subject are identical and both fields are set to "CN = www.modelCA.com, O = Model CA LTD., C = US"
 
-![Self-Identifying](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/task-1-self-identifying.png?ref_type=heads)
+![Self-Identifying](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task-1-self-identifying.png?ref_type=heads)
 
 *In the RSA algorithm, we have a public exponent e, a private exponent d, a modulus n, and two secret
 numbers p and q, such that n = pq. Please identify the values for these elements in your certificate
 and key files.*
 
-![public-exponent](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/task1-publicExponent.png?ref_type=heads)
-![private-exponent](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/task1-privateExponent.png?ref_type=heads)
-![modulus](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/task1-modulus.png?ref_type=heads)
-![prime1-prime2](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/blob/main/Semana%20%2311/Images/task1-prime1prime2.png?ref_type=heads)
+![public-exponent](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task1-publicExponent.png?ref_type=heads)
+![private-exponent](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task1-privateExponent.png?ref_type=heads)
+![modulus](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task1-modulus.png?ref_type=heads)
+![prime1-prime2](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task1-prime1prime2.png?ref_type=heads)
 
 ## Task 2 - Generating a Certificate Request for Your Web Server
 
