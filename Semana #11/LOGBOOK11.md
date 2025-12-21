@@ -85,7 +85,7 @@ To transform the CSR into a trusted certificate, the CA must process the request
 
 Firstly, we uncommented the line "copy extensions = copy"
 
-![Copy_extensions](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task2-certificate.png?ref_type=heads)
+![Copy_extensions](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/Task3-copyext.png?ref_type=heads)
 
 Using the OpenSSL ca command, we signed the guilherme.csr file.
 
@@ -99,7 +99,7 @@ Finally, we used "openssl x509 -in guilherme.crt -text -noout" to verify that th
 
 The goal of this task is to configure an Apache web server with the signed certificate from Task 3 and verify that a client browser trusts the connection. This demonstrates a complete, functional PKI "Chain of Trust" in a real-world scenario.
 
-Firstly, we moved the files "guilherme.key", "guilherme.crt" and "guilherme.crs" into the lab's shared volume directory:
+Firstly, we moved the files "guilherme.key", "guilherme.crt" and "guilherme.csr" into the lab's shared volume directory:
 
 ![volumes](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/main/Semana%20%2311/Images/task4-volumes.png?ref_type=heads)
 
