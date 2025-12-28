@@ -28,7 +28,8 @@ $ ifconfig
 The goal was to verify that packet sniffing requires administrative privileges due to the nature of raw socket access.
 
 #### Execution
-We utilized the following Scapy script to sniff ICMP packets:
+Since the containers are silent by default, we first generated traffic by pinging 8.8.8.8 from hostA. Simultaneously, we ran the following Scapy script on the attacker machine to capture these ICMP packets:
+
 
 ```python
 #!/usr/bin/env python3
@@ -44,6 +45,14 @@ pkt = sniff(iface='br-7f69ed284fb2', filter='icmp', prn=print_pkt)
 #### Result
 * **Running as regular user:** The script failed with a permission error.
 * **Running with sudo:** The script successfully captured packets.
+* **Packet Layers Analysis:** The pkt.show() output detailed the encapsulated layers:
+
+    1. Ethernet: Showing MAC addresses of the container and gateway.
+
+    2. IP: Displaying Source (10.9.0.5) and Destination (8.8.8.8) IPs.
+
+    3. ICMP: Identifying the type (Echo Request) and code.
+
 * **Explanation:** Sniffing requires "Raw Sockets," which allow an application to interact directly with the network layer. To prevent unauthorized users from eavesdropping on network traffic, operating systems restrict this capability to the root user.
 
 ### Task 1.1B - BPF Filters
@@ -142,3 +151,52 @@ tracer("8.8.8.8")
 
 ### Result
 The script successfully traced the route hop-by-hop. We observed the IP addresses of intermediate routers (Type 11) until the destination server responded with a Type 0 packet, ending the loop.
+
+## Task 1.4: Sniffing and-then Spoofing
+ 
+### Objective
+To combine the previous techniques into a single automated program. The goal is to sniff for ICMP Echo Requests on the network and immediately send a spoofed Echo Reply, effectively making any target IP appear "alive" to the sender.
+### Execution
+We wrote a Python program using Scapy that sniffs for ICMP Echo Requests (Type 8) on the network interface and automatically crafts an Echo Reply (Type 0) swapping the source and destination IP addresses.
+```python
+#!/usr/bin/python3
+from scapy.all import *
+
+def spoof_icmp(pkt):
+    # Check if the packet is an ICMP Echo Request (Type 8)
+    if(pkt[ICMP].type == 8):
+        ip = pkt[IP]
+        icmp = pkt[ICMP]
+
+        # Construct the reply:
+        # 1. Swap Source and Destination IPs
+        # 2. Set ICMP Type to 0 (Echo Reply)
+        # 3. Copy ID and Sequence number to match the request
+        # 4. Include the original payload (Raw layer)
+        reply = IP(src=ip.dst, dst=ip.src) / ICMP(type=0, id=icmp.id, seq=icmp.seq) / pkt[Raw]
+
+        send(reply)
+prn=spoof_icmp
+# Sniff for ICMP packets and trigger the spoof_icmp callback
+pkt = sniff(iface='br-7f69ed284fb2', filter='icmp', prn=prn)
+```
+### Observations
+We pinged three distinct types of IP addresses from the user container (10.9.0.5) while our sniffing-and-spoofing program was running on the attacker container (10.9.0.1). The results were as follows:
+
+### Pinging 1.2.3.4 (Non-existing Internet IP)
+**Result:** The ping command received a reply successfully.
+**Analysis:** Since this IP address does not belong to the local network, the victim machine forwards the packet to its default gateway. Our sniffer captured this outgoing ICMP Echo Request and immediately injected a spoofed Echo Reply. As a result, the victim believes 1.2.3.4 is alive, even though it does not exist.
+
+### Pinging 10.9.0.99 (Non-existing Local IP)
+**Result:** The ping command failed to receive a reply ("Destination Host Unreachable"), even with our program running.
+**Analysis:** Observing the Wireshark logs reveals a distinct pattern for this case. Instead of ICMP packets, we see repeated ARP Broadcast Requests asking "Who has 10.9.0.99?".
+This happens because the target is on the local subnet. The OS tries to resolve the MAC address via ARP before creating the IP packet. Since the host 10.9.0.99 does not exist, no ARP Reply is received, and the OS never sends the ICMP packet. Consequently, our code (which filters for ICMP) never sees a trigger packet and sends no reply. To make this work, we would also need to spoof ARP replies.
+
+### Pinging 8.8.8.8 (Existing Internet IP)
+
+**Result:** The ping command received replies, but Wireshark showed duplicate packets.
+**Analysis:** In this case, two responses were generated:
+
+1. One legitimate reply from the real Google DNS server (8.8.8.8).
+
+2. One spoofed reply from our program confirming that our attack does not block legitimate traffic, it simply races against the real server to inject a packet. The victim machine receives both, often accepting the one that arrives first or displaying both as duplicates.
