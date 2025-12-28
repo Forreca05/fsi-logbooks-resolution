@@ -80,16 +80,19 @@ We tested three different filters by modifying the `sniff` function:
    pkt = sniff(iface='br-7f69ed284fb2', filter='icmp', prn=print_pkt)
    ```
 ![icmp_packets](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/4fe3953e7b625b151aa230d14acd27028fee17a8/Semana%20%2312/Images/icmp_packets.png)
+
 2. **TCP from 10.9.0.5 to port 23:**
    ```python
    pkt = sniff(iface='br-7f69ed284fb2', filter='tcp and src host 10.9.0.5 and dst port 23', prn=print_pkt)
    ```
 ![tcp_packets](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/4fe3953e7b625b151aa230d14acd27028fee17a8/Semana%20%2312/Images/tcp_packets.png)
+
 3. **Subnet 128.230.0.0/16:**
    ```python
    pkt = sniff(iface='br-7f69ed284fb2', filter='net 128.230.0.0/16', prn=print_pkt)
    ```
 ![particular_subnet](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/4fe3953e7b625b151aa230d14acd27028fee17a8/Semana%20%2312/Images/particular_subnet.png)
+
 #### Result
 The sniffer successfully filtered the packets, showing only the traffic that matched our BPF expressions.
 
