@@ -21,6 +21,15 @@ _name](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/4fe3953e7b625b1
 
 ## Lab Task Set 1: Scapy (Sniffing and Spoofing)
 
+### Using Scapy
+
+To familiarize ourselves with the tool before performing specific attacks, we used Scapy to construct a simple IP object and inspect its default fields.
+```bash
+scapy
+a = IP()
+a.show()
+```
+![using scapy](https://gitlab.up.pt/class/fsi/2526/t17/t17-group04/-/raw/4fe3953e7b625b151aa230d14acd27028fee17a8/Semana%20%2312/Images/using_scappy.png)
 ## Task 1.1: Sniffing Packets
 
 ### Task 1.1A - Root vs. User Privileges
