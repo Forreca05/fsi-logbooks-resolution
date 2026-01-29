@@ -1,4 +1,4 @@
-# FSI Weekly Logbooks — Group 04
+# FSI Weekly Logbooks
 
 This repository contains the weekly logbooks produced for the **FSI – Informatics Security Fundamentals** course of the **3rd year LEIC program at FEUP**.
 
